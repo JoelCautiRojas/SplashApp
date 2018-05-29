@@ -87,24 +87,32 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
     public void onSensorChanged(SensorEvent event) {
         switch(event.sensor.getType()){
             case Sensor.TYPE_ORIENTATION:
+                String msj = "";
                 for (int i = 0; i < 3 ; i++){
-                    sensor1.setText("Dato de Orientacion"+i+": "+event.values[i]);
+                    msj+="Dato de Orientacion"+i+": "+event.values[i]+"\r\n";
                 }
+                sensor1.setText(msj);
                 break;
             case Sensor.TYPE_ACCELEROMETER:
+                String msj2 = "";
                 for (int i = 0; i < 3 ; i++){
-                    sensor2.setText("Dato de Acelerometro"+i+": "+event.values[i]);
+                    msj2+="Dato de Acelerometro"+i+": "+event.values[i]+"\r\n";
                 }
+                sensor2.setText(msj2);
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
+                String msj3 = "";
                 for (int i = 0; i < 3 ; i++){
-                    sensor3.setText("Dato de Campo Magnetico"+i+": "+event.values[i]);
+                    msj3+="Dato de Campo Magnetico"+i+": "+event.values[i]+"\r\n";
                 }
+                sensor3.setText(msj3);
                 break;
             case Sensor.TYPE_PROXIMITY:
+                String msj4 = "";
                 for (int i = 0; i < 3 ; i++){
-                    sensor4.setText("Dato de Proximidad"+i+": "+event.values[i]);
+                    msj4+="Dato de Proximidad"+i+": "+event.values[i]+"\r\n";
                 }
+                sensor4.setText(msj4);
                 break;
         }
     }
