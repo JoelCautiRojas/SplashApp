@@ -35,7 +35,14 @@ public class Main2Activity extends AppCompatActivity {
         List<Sensor> lista = administradordesensores.getSensorList(Sensor.TYPE_ALL);
         String mensaje = "";
         for (Sensor sensor:lista){
-            mensaje = mensaje+sensor.getName()+"\r\n";
+            mensaje = mensaje+"Nombre: "+sensor.getName()+
+                    "\r\nRango Maximo: "+String.valueOf(sensor.getMaximumRange())+
+                    "\r\nRetraso Minimo: "+String.valueOf(sensor.getMinDelay())+
+                    "\r\nPotencia en miliamperios: "+String.valueOf(sensor.getPower())+
+                    "\r\nResolucion: "+String.valueOf(sensor.getResolution())+
+                    "\r\nTipo Generico: "+String.valueOf(sensor.getType())+
+                    "\r\nFabricante: "+sensor.getVendor()+
+                    "\r\nVersion: "+String.valueOf(sensor.getVersion());
         }
         resultado.setText(mensaje);
     }
