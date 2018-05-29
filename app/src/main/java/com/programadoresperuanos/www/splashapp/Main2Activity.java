@@ -18,7 +18,7 @@ import static android.Manifest.permission.BODY_SENSORS;
 
 public class Main2Activity extends AppCompatActivity implements SensorEventListener{
 
-    TextView resultado;
+    TextView resultado,sensor1,sensor2,sensor3,sensor4;
     String mensaje;
 
     @Override
@@ -26,6 +26,10 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         resultado = findViewById(R.id.textView);
+        sensor1 = findViewById(R.id.textView2);
+        sensor2 = findViewById(R.id.textView3);
+        sensor3 = findViewById(R.id.textView4);
+        sensor4 = findViewById(R.id.textView5);
         if(ActivityCompat.checkSelfPermission(this,BODY_SENSORS)== PackageManager.PERMISSION_GRANTED){
             iniciarApp();
         }
@@ -49,22 +53,22 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         }
         mensaje+="Datos de los sensores de orientacion:\r\n\r\n";
         List<Sensor> lista2 = administradordesensores.getSensorList(Sensor.TYPE_ORIENTATION);
-        if(lista2.isEmpty()){
+        if(!lista2.isEmpty()){
             Sensor orientacionsensor = lista2.get(0);
             administradordesensores.registerListener((SensorEventListener) this,orientacionsensor,SensorManager.SENSOR_DELAY_UI);
         }
         List<Sensor> lista3 = administradordesensores.getSensorList(Sensor.TYPE_ACCELEROMETER);
-        if(lista3.isEmpty()){
+        if(!lista3.isEmpty()){
             Sensor acelerometerSensor = lista3.get(0);
             administradordesensores.registerListener((SensorEventListener) this,acelerometerSensor,SensorManager.SENSOR_DELAY_UI);
         }
         List<Sensor> lista4 = administradordesensores.getSensorList(Sensor.TYPE_MAGNETIC_FIELD);
-        if(lista4.isEmpty()){
+        if(!lista4.isEmpty()){
             Sensor magneticField = lista4.get(0);
             administradordesensores.registerListener((SensorEventListener) this,magneticField,SensorManager.SENSOR_DELAY_UI);
         }
         List<Sensor> lista5 = administradordesensores.getSensorList(Sensor.TYPE_PROXIMITY);
-        if(lista5.isEmpty()){
+        if(!lista5.isEmpty()){
             Sensor proximidad = lista5.get(0);
             administradordesensores.registerListener((SensorEventListener) this,proximidad,SensorManager.SENSOR_DELAY_UI);
         }
@@ -84,22 +88,22 @@ public class Main2Activity extends AppCompatActivity implements SensorEventListe
         switch(event.sensor.getType()){
             case Sensor.TYPE_ORIENTATION:
                 for (int i = 0; i < 3 ; i++){
-                    Log.d("TYPE ORIENTATION","Dato de Orientacion"+i+": "+event.values[i]);
+                    sensor1.setText("Dato de Orientacion"+i+": "+event.values[i]);
                 }
                 break;
             case Sensor.TYPE_ACCELEROMETER:
                 for (int i = 0; i < 3 ; i++){
-                    Log.d("TYPE TYPE_ACCELEROMETER","Dato de Acelerometro"+i+": "+event.values[i]);
+                    sensor2.setText("Dato de Acelerometro"+i+": "+event.values[i]);
                 }
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 for (int i = 0; i < 3 ; i++){
-                    Log.d("TYPE_MAGNETIC_FIELD","Dato de Campo Magnetico"+i+": "+event.values[i]);
+                    sensor3.setText("Dato de Campo Magnetico"+i+": "+event.values[i]);
                 }
                 break;
             case Sensor.TYPE_PROXIMITY:
                 for (int i = 0; i < 3 ; i++){
-                    Log.d("TYPE_PROXIMITY","Dato de Proximidad"+i+": "+event.values[i]);
+                    sensor4.setText("Dato de Proximidad"+i+": "+event.values[i]);
                 }
                 break;
         }
