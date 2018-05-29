@@ -2,20 +2,24 @@ package com.programadoresperuanos.www.splashapp;
 
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.List;
 
 import static android.Manifest.permission.BODY_SENSORS;
 
-public class Main2Activity extends AppCompatActivity {
+public class Main2Activity extends AppCompatActivity implements SensorEventListener{
 
     TextView resultado;
+    String mensaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +37,36 @@ public class Main2Activity extends AppCompatActivity {
     private void iniciarApp() {
         SensorManager administradordesensores = (SensorManager) getSystemService(SENSOR_SERVICE);
         List<Sensor> lista = administradordesensores.getSensorList(Sensor.TYPE_ALL);
-        String mensaje = "";
         for (Sensor sensor:lista){
-            mensaje = mensaje+"Nombre: "+sensor.getName()+
+           mensaje+="Nombre: "+sensor.getName()+
                     "\r\nRango Maximo: "+String.valueOf(sensor.getMaximumRange())+
                     "\r\nRetraso Minimo: "+String.valueOf(sensor.getMinDelay())+
                     "\r\nPotencia en miliamperios: "+String.valueOf(sensor.getPower())+
                     "\r\nResolucion: "+String.valueOf(sensor.getResolution())+
                     "\r\nTipo Generico: "+String.valueOf(sensor.getType())+
                     "\r\nFabricante: "+sensor.getVendor()+
-                    "\r\nVersion: "+String.valueOf(sensor.getVersion());
+                    "\r\nVersion: "+String.valueOf(sensor.getVersion()+"\r\n\r\n");
+        }
+        mensaje+="Datos de los sensores de orientacion:\r\n\r\n";
+        List<Sensor> lista2 = administradordesensores.getSensorList(Sensor.TYPE_ORIENTATION);
+        if(lista2.isEmpty()){
+            Sensor orientacionsensor = lista2.get(0);
+            administradordesensores.registerListener((SensorEventListener) this,orientacionsensor,SensorManager.SENSOR_DELAY_UI);
+        }
+        List<Sensor> lista3 = administradordesensores.getSensorList(Sensor.TYPE_ACCELEROMETER);
+        if(lista3.isEmpty()){
+            Sensor acelerometerSensor = lista3.get(0);
+            administradordesensores.registerListener((SensorEventListener) this,acelerometerSensor,SensorManager.SENSOR_DELAY_UI);
+        }
+        List<Sensor> lista4 = administradordesensores.getSensorList(Sensor.TYPE_MAGNETIC_FIELD);
+        if(lista4.isEmpty()){
+            Sensor magneticField = lista4.get(0);
+            administradordesensores.registerListener((SensorEventListener) this,magneticField,SensorManager.SENSOR_DELAY_UI);
+        }
+        List<Sensor> lista5 = administradordesensores.getSensorList(Sensor.TYPE_PROXIMITY);
+        if(lista5.isEmpty()){
+            Sensor proximidad = lista5.get(0);
+            administradordesensores.registerListener((SensorEventListener) this,proximidad,SensorManager.SENSOR_DELAY_UI);
         }
         resultado.setText(mensaje);
     }
@@ -53,5 +77,36 @@ public class Main2Activity extends AppCompatActivity {
         if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
             iniciarApp();
         }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        switch(event.sensor.getType()){
+            case Sensor.TYPE_ORIENTATION:
+                for (int i = 0; i < 3 ; i++){
+                    Log.d("TYPE ORIENTATION","Dato de Orientacion"+i+": "+event.values[i]);
+                }
+                break;
+            case Sensor.TYPE_ACCELEROMETER:
+                for (int i = 0; i < 3 ; i++){
+                    Log.d("TYPE TYPE_ACCELEROMETER","Dato de Acelerometro"+i+": "+event.values[i]);
+                }
+                break;
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                for (int i = 0; i < 3 ; i++){
+                    Log.d("TYPE_MAGNETIC_FIELD","Dato de Campo Magnetico"+i+": "+event.values[i]);
+                }
+                break;
+            case Sensor.TYPE_PROXIMITY:
+                for (int i = 0; i < 3 ; i++){
+                    Log.d("TYPE_PROXIMITY","Dato de Proximidad"+i+": "+event.values[i]);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }
